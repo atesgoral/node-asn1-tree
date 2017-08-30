@@ -1,73 +1,3 @@
-const elementClassList = [
-  'UNIVERSAL',
-  'APPLICATION-WIDE',
-  'CONTEXT-SPECIFIC',
-  'PRIVATE-USE'
-];
-
-const elementFormList = [
-  'PRIMITIVE',
-  'CONSTRUCTED'
-];
-
-const universalTags = {
-  'BOOLEAN': 1,
-  'INTEGER': 2,
-  'BIT STRING': 3,
-  'OCTET STRING': 4,
-  'NULL': 5,
-  'OBJECT IDENTIFIER': 6,
-  'ObjectDescriptor': 7,
-  'INSTANCE OF': 8,
-  'EXTERNAL': 8,
-  'REAL': 9,
-  'ENUMERATED': 10,
-  'EMBEDDED PDV': 11,
-  'UTF8String': 12,
-  'RELATIVE-OID': 13,
-  'SEQUENCE': 16,
-  'SEQUENCE OF': 16,
-  'SET': 17,
-  'SET OF': 17,
-  'NumericString': 18,
-  'PrintableString': 19,
-  'TeletexString': 20,
-  'T61String': 20,
-  'VideotexString': 21,
-  'IA5String': 22,
-  'UTCTime': 23,
-  'GeneralizedTime': 24,
-  'GraphicString': 25,
-  'VisibleString': 26,
-  'ISO646String': 26,
-  'GeneralString': 27,
-  'UniversalString': 28,
-  'CHARACTER STRING': 29,
-  'BMPString': 30
-};
-
-const constructedTypes = {
-  'SEQUENCE': 1,
-  'SEQUENCE OF': 1,
-  'SET': 1,
-  'SET OF': 1,
-  'CHOICE': 1
-};
-
-const decoders = {
-  'NULL': () => true,
-  'INTEGER': (value) => {
-    return value.readIntBE(0, value.length);
-  },
-  // 'ENUMERATED': (value, definition) => {
-  'ENUMERATED': (value) => {
-    // const itemValue = value.readIntBE(0, value.length);
-    // const item = definition.values.find((item) => itemValue === item.value);
-    // return item ? item.name : itemValue;
-    return value.readIntBE(0, value.length);
-  }
-};
-
 function decode(buffer) {
   let bytesRead = 0;
 
@@ -100,8 +30,8 @@ function decode(buffer) {
   }
 
   const element = {
-    cls: elementClassList[cls],
-    form: elementFormList[form],
+    cls,
+    form,
     tagCode
   };
 

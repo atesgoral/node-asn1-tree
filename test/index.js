@@ -2,7 +2,10 @@ import test from 'ava';
 
 const asn1Tree = require('..');
 
-const FORM_CONSTRUCTED = 1 << 5;
+const CLS_UNIVERSAL = 0;
+
+const FORM_PRIMITIVE = 0;
+const FORM_CONSTRUCTED = 1;
 
 const TAG_OCTET_STRING = 4;
 const TAG_NULL = 5;
@@ -42,8 +45,8 @@ test('primitive: element with length 0', (t) => {
   t.deepEqual(
     d(TAG_NULL, 0),
     {
-      cls: 'UNIVERSAL',
-      form: 'PRIMITIVE',
+      cls: CLS_UNIVERSAL,
+      form: FORM_PRIMITIVE,
       tagCode: TAG_NULL,
       value: null
     }
@@ -54,8 +57,8 @@ test('primitive: element with short length', (t) => {
   t.deepEqual(
     d(TAG_OCTET_STRING, 3, b(3)),
     {
-      cls: 'UNIVERSAL',
-      form: 'PRIMITIVE',
+      cls: CLS_UNIVERSAL,
+      form: FORM_PRIMITIVE,
       tagCode: TAG_OCTET_STRING,
       value: b(3)
     }
@@ -66,8 +69,8 @@ test('primitive: element with short length = 127', (t) => {
   t.deepEqual(
     d(TAG_OCTET_STRING, 127, b(127)),
     {
-      cls: 'UNIVERSAL',
-      form: 'PRIMITIVE',
+      cls: CLS_UNIVERSAL,
+      form: FORM_PRIMITIVE,
       tagCode: TAG_OCTET_STRING,
       value: b(127)
     }
@@ -78,8 +81,8 @@ test('primitive: element with long length', (t) => {
   t.deepEqual(
     d(TAG_OCTET_STRING, 128 | 2, 5000 >> 8, 5000 & 255, b(5000)),
     {
-      cls: 'UNIVERSAL',
-      form: 'PRIMITIVE',
+      cls: CLS_UNIVERSAL,
+      form: FORM_PRIMITIVE,
       tagCode: TAG_OCTET_STRING,
       value: b(5000)
     }
@@ -88,14 +91,14 @@ test('primitive: element with long length', (t) => {
 
 test('constructed: element with indefinite length', (t) => {
   t.deepEqual(
-    d(FORM_CONSTRUCTED | TAG_SEQUENCE, 128, TAG_OCTET_STRING, 3, b(3), 0),
+    d(FORM_CONSTRUCTED << 5 | TAG_SEQUENCE, 128, TAG_OCTET_STRING, 3, b(3), 0),
     {
-      cls: 'UNIVERSAL',
-      form: 'CONSTRUCTED',
+      cls: CLS_UNIVERSAL,
+      form: FORM_CONSTRUCTED,
       tagCode: TAG_SEQUENCE,
       elements: [{
-        cls: 'UNIVERSAL',
-        form: 'PRIMITIVE',
+        cls: CLS_UNIVERSAL,
+        form: FORM_PRIMITIVE,
         tagCode: 4,
         value: b(3)
       }]
