@@ -1,0 +1,25 @@
+{
+  "name": "asn1-tree",
+  "version": "0.0.1",
+  "description": "ASN.1 parser and decoder",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/atesgoral/node-asn1-tree.git"
+  },
+  "keywords": [
+    "asn1"
+  ],
+  "author": "Ates Goral <ates@magnetiq.com> (http://magnetiq.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atesgoral/node-asn1-tree/issues"
+  },
+  "homepage": "https://github.com/atesgoral/node-asn1-tree#readme",
+  "devDependencies": {
+    "ava": "^0.22.0"
+  }
+}
