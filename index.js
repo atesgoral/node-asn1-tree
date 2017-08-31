@@ -93,9 +93,9 @@ function encode(element) {
       throw new Error('Extended tags are not supported');
     }
 
-    const tag = element.tagCode
-      | elementFormList.indexOf(element.form) << 5
-      | elementClassList.indexOf(element.cls) << 6;
+    const tag = element.cls << 6
+      | element.form << 5
+      | element.tagCode;
 
     buffer.writeUInt8(tag, offset + bytesWritten);
     bytesWritten += 1;
