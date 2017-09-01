@@ -1,3 +1,5 @@
+const FORM_PRIMITIVE = 0;
+
 function decode(buffer) {
   let bytesRead = 0;
 
@@ -100,7 +102,7 @@ function encode(element) {
     buffer.writeUInt8(tag, offset + bytesWritten);
     bytesWritten += 1;
 
-    if (element.form === 'PRIMITIVE') {
+    if (element.form === FORM_PRIMITIVE) {
       writeLength(element.value.length);
 
       buffer.write(element.value.toString('binary'), offset + bytesWritten, element.value.length, 'binary');
