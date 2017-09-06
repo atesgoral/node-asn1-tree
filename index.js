@@ -40,7 +40,7 @@ function decode(buffer) {
   if (form === 0) { // Primitive
     const value = elementLength
       ? buffer.slice(bytesRead, bytesRead + elementLength)
-      : null;
+      : Buffer.from([]);
     bytesRead += elementLength;
 
     element.value = value;
