@@ -33,14 +33,14 @@ const b = (...a) => a.reduce((b, i) => Buffer.concat([
 
 test('decode: tag 0', (t) => {
   t.is(
-    asn1Tree.decode(b(tag(CLS_UNIVERSAL, FORM_PRIMITIVE, 0))),
+    asn1Tree.decode(b(tag(CLS_UNIVERSAL, FORM_PRIMITIVE, 0), 0)),
     null
   );
 });
 
 test('decode: tagCode 0b11111', (t) => {
   t.throws(() => {
-    asn1Tree.decode(b(tag(CLS_UNIVERSAL, FORM_PRIMITIVE, 0b11111)));
+    asn1Tree.decode(b(tag(CLS_UNIVERSAL, FORM_PRIMITIVE, 0b11111), 0));
   }, 'Extended tags are not supported');
 });
 
@@ -100,7 +100,7 @@ test('decode: constructed: element with indefinite length', (t) => {
     asn1Tree.decode(b(
       tag(CLS_UNIVERSAL, FORM_CONSTRUCTED, TAG_SEQUENCE), 128,
         tag(CLS_UNIVERSAL, FORM_PRIMITIVE, TAG_OCTET_STRING), 3, f(3),
-        0
+        0, 0
     )),
     {
       cls: CLS_UNIVERSAL,

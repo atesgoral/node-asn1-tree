@@ -6,8 +6,12 @@ function decode(buffer) {
   let tag = buffer.readUInt8(bytesRead);
   bytesRead += 1;
 
-  if (tag === 0) {
-    return { element: null };
+  let elementLength = buffer.readUInt8(bytesRead);
+  bytesRead += 1;
+
+  if (tag === 0 && elementLength === 0) {
+    // End-of-contents indicator
+    return { element: null, bytesRead };
   }
 
   const cls = tag >> 6;
@@ -17,9 +21,6 @@ function decode(buffer) {
   if (tagCode === 0b11111) {
     throw new Error('Extended tags are not supported');
   }
-
-  let elementLength = buffer.readUInt8(bytesRead);
-  bytesRead += 1;
 
   if (elementLength < 128) {
     // Short form length, do nothing
@@ -50,13 +51,12 @@ function decode(buffer) {
     while (!elementLength || bytesRead - 2 < elementLength) {
       const result = decode(buffer.slice(bytesRead));
 
-      if (!result.element) {
+      bytesRead += result.bytesRead;
+
+      if (result.element === null) {
         // End-of-contents indicator reached
-        bytesRead += 1;
         break;
       }
-
-      bytesRead += result.bytesRead;
 
       elements.push(result.element);
     }
