@@ -4,9 +4,9 @@
 
 # asn1-tree
 
-ASN.1 encoder/decoder. Parses a binary ASN.1 buffer into a JavaScript object that describes the ASN.1 structure. Nested elements form a tree, and hence the name "asn1-tree", and a primitive value would just result in an object.
+Yet another ASN.1 encoder/decoder in JavaScript. Parses a binary ASN.1 buffer into a JavaScript object that describes the ASN.1 structure. Nested elements form a tree, and hence the name "asn1-tree", and a primitive value would just result in an object.
 
-This is just an encoder/decoder. The interpretation of the structure (i.e. matching against a schema) is beyond the scope of this library. See asn1-mapper, an ASN.1 schema mapper, for that purpose.
+This is just an encoder/decoder. The interpretation of the structure (i.e. matching against a schema) is beyond the scope of this library. See [asn1-mapper](https://www.npmjs.com/package/asn1-tree), an ASN.1 schema mapper, for that purpose.
 
 ## Installation
 
