@@ -53,5 +53,5 @@ The value of `element` will be:
 Going back:
 
 ```
-const buffer = asn1tree.encode(element);
+const buffer = asn1Tree.encode(element);
 ```
