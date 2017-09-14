@@ -22,6 +22,7 @@
   "homepage": "https://github.com/atesgoral/node-asn1-tree#readme",
   "devDependencies": {
     "ava": "^0.22.0",
+    "coveralls": "^2.13.1",
     "nyc": "^11.2.1"
   }
 }
