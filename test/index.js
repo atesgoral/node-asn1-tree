@@ -45,17 +45,14 @@ test('decode: tagCode 0b11111', (t) => {
 });
 
 test('decode: primitive: element with length 0', (t) => {
-  // @todo offset is out of bounds exception with comparison of empty buffers
-  // t.deepEqual(
-  // );
-  t.is(
-    JSON.stringify(asn1Tree.decode(b(tag(CLS_UNIVERSAL, FORM_PRIMITIVE, TAG_NULL), 0))),
-    JSON.stringify({
+  t.deepEqual(
+    asn1Tree.decode(b(tag(CLS_UNIVERSAL, FORM_PRIMITIVE, TAG_NULL), 0)),
+    {
       cls: CLS_UNIVERSAL,
       form: FORM_PRIMITIVE,
       tagCode: TAG_NULL,
       value: f(0)
-    })
+    }
   );
 });
 
