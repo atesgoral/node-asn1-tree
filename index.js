@@ -6,20 +6,28 @@ function decode(buffer) {
   let tag = buffer.readUInt8(bytesRead);
   bytesRead += 1;
 
+  const cls = tag >> 6;
+  const form = tag >> 5 & 1;
+  let tagCode = tag & 0b11111;
+
+  if (tagCode === 0b11111) {
+    let longTag = '';
+
+    do {
+      tagCode = buffer.readUInt8(bytesRead);
+      bytesRead += 1;
+      longTag += (tagCode & 0x7f).toString(16);
+    } while (tagCode & 0b10000000);
+
+    tagCode = parseInt(longTag, 16);
+  }
+
   let elementLength = buffer.readUInt8(bytesRead);
   bytesRead += 1;
 
   if (tag === 0 && elementLength === 0) {
     // End-of-contents indicator
     return { element: null, bytesRead };
-  }
-
-  const cls = tag >> 6;
-  const form = tag >> 5 & 1;
-  const tagCode = tag & 0b11111;
-
-  if (tagCode === 0b11111) {
-    throw new Error('Extended tags are not supported');
   }
 
   if (elementLength < 128) {
@@ -48,7 +56,7 @@ function decode(buffer) {
   } else {
     const elements = [];
 
-    while (!elementLength || bytesRead - 2 < elementLength) {
+    while (elementLength == undefined || bytesRead - 2 < elementLength) {
       const result = decode(buffer.slice(bytesRead));
 
       bytesRead += result.bytesRead;

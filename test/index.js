@@ -38,10 +38,24 @@ test('decode: tag 0', (t) => {
   );
 });
 
-test('decode: tagCode 0b11111', (t) => {
-  t.throws(() => {
-    asn1Tree.decode(b(tag(CLS_UNIVERSAL, FORM_PRIMITIVE, 0b11111), 0));
-  }, 'Extended tags are not supported');
+test('decode: tagCode 0x9F32 (high tag)', (t) => {
+  t.deepEqual(
+    asn1Tree.decode(b(tag(CLS_CONTEXT_SPECIFIC, FORM_PRIMITIVE, 50), )),
+    {
+      cls: CLS_CONTEXT_SPECIFIC,
+      form: FORM_PRIMITIVE,
+      tagCode: 50,
+      elements: [{
+        cls: CLS_UNIVERSAL,
+        form: FORM_PRIMITIVE,
+        tagCode: 4,
+        value: f(3)
+      }]
+    }
+  );
+/*  t.throws(() => {
+    asn1Tree.decode(b(tag(CLS_CONTEXT_SPECIFIC, FORM_PRIMITIVE, 0x9F32), 0));
+  }, 'Extended tags are not supported'); */
 });
 
 test('decode: primitive: element with length 0', (t) => {
