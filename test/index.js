@@ -53,9 +53,6 @@ test('decode: tagCode 0x9F32 (high tag)', (t) => {
       }]
     }
   );
-/*  t.throws(() => {
-    asn1Tree.decode(b(tag(CLS_CONTEXT_SPECIFIC, FORM_PRIMITIVE, 0x9F32), 0));
-  }, 'Extended tags are not supported'); */
 });
 
 test('decode: primitive: element with length 0', (t) => {
