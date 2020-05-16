@@ -38,19 +38,14 @@ test('decode: tag 0', (t) => {
   );
 });
 
-test('decode: tagCode 0x9F32 (high tag)', (t) => {
+test('decode: tagCode 50 (high tag)', (t) => {
   t.deepEqual(
-    asn1Tree.decode(b(tag(CLS_CONTEXT_SPECIFIC, FORM_PRIMITIVE, 50), )),
+    asn1Tree.decode(b(tag(CLS_CONTEXT_SPECIFIC, FORM_PRIMITIVE, 31), 50, 3, f(3))),
     {
       cls: CLS_CONTEXT_SPECIFIC,
       form: FORM_PRIMITIVE,
       tagCode: 50,
-      elements: [{
-        cls: CLS_UNIVERSAL,
-        form: FORM_PRIMITIVE,
-        tagCode: 4,
-        value: f(3)
-      }]
+      value: f(3)
     }
   );
 });

@@ -11,15 +11,13 @@ function decode(buffer) {
   let tagCode = tag & 0b11111;
 
   if (tagCode === 0b11111) {
-    let longTag = '';
+    tagCode = 0;
 
     do {
-      tagCode = buffer.readUInt8(bytesRead);
+      let byte = buffer.readUInt8(bytesRead);
       bytesRead += 1;
-      longTag += (tagCode & 0x7f).toString(16);
-    } while (tagCode & 0b10000000);
-
-    tagCode = parseInt(longTag, 16);
+      tagCode = (tagCode << 8) | (byte & 0x7f);
+    } while (tagCode & 0x80);
   }
 
   let elementLength = buffer.readUInt8(bytesRead);
@@ -56,7 +54,7 @@ function decode(buffer) {
   } else {
     const elements = [];
 
-    while (elementLength == undefined || bytesRead - 2 < elementLength) {
+    while (!elementLength || bytesRead - 2 < elementLength) {
       const result = decode(buffer.slice(bytesRead));
 
       bytesRead += result.bytesRead;
