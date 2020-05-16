@@ -12,12 +12,13 @@ function decode(buffer) {
 
   if (tagCode === 0b11111) {
     tagCode = 0;
+    let byte;
 
     do {
-      let byte = buffer.readUInt8(bytesRead);
+      byte = buffer.readUInt8(bytesRead);
       bytesRead += 1;
       tagCode = (tagCode << 8) | (byte & 0x7f);
-    } while (tagCode & 0x80);
+    } while (byte & 0x80);
   }
 
   let elementLength = buffer.readUInt8(bytesRead);
