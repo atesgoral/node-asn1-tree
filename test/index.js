@@ -38,7 +38,7 @@ test('decode: tag 0', (t) => {
   );
 });
 
-test('decode: tagCode 50 (high tag)', (t) => {
+test('decode: tagCode 50 (extended tag / aka high tag)', (t) => {
   t.deepEqual(
     asn1Tree.decode(b(tag(CLS_CONTEXT_SPECIFIC, FORM_PRIMITIVE, 31), 50, 3, f(3))),
     {
