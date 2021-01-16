@@ -50,6 +50,18 @@ test('decode: tagCode 50 (extended tag / aka high tag)', (t) => {
   );
 });
 
+test('decode: tagCode 257 (extended tag / aka high tag with three octets)', (t) => {
+  t.deepEqual(
+    asn1Tree.decode(b(tag(CLS_CONTEXT_SPECIFIC, FORM_PRIMITIVE, 31), 130, 1, 3, f(3))),
+    {
+      cls: CLS_CONTEXT_SPECIFIC,
+      form: FORM_PRIMITIVE,
+      tagCode: 257,
+      value: f(3)
+    }
+  );
+});
+
 test('decode: primitive: element with length 0', (t) => {
   t.deepEqual(
     asn1Tree.decode(b(tag(CLS_UNIVERSAL, FORM_PRIMITIVE, TAG_NULL), 0)),

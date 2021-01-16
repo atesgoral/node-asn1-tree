@@ -17,7 +17,7 @@ function decode(buffer) {
     do {
       byte = buffer.readUInt8(bytesRead);
       bytesRead += 1;
-      tagCode = (tagCode << 8) | (byte & 0x7f);
+      tagCode = (tagCode << 7) | (byte & 0x7f);
     } while (byte & 0x80);
   }
 
